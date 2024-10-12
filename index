@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gioco delle Barre</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+            width: 50%;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Trova la lunghezza delle barre</h1>
+    <p id="problem"></p>
+    <label for="guessA">Inserisci la lunghezza della barra A:</label><br>
+    <input type="number" id="guessA"><br>
+    <label for="guessB">Inserisci la lunghezza della barra B:</label><br>
+    <input type="number" id="guessB"><br>
+    <button onclick="checkAnswer()">Verifica</button>
+    <p class="result" id="result"></p>
+</div>
+
+<script>
+    let A, B, somma, differenza, k;
+    const problemElement = document.getElementById('problem');
+    const resultElement = document.getElementById('result');
+
+    function generateGame() {
+        A = Math.floor(Math.random() * 20) + 1;
+        B = Math.floor(Math.random() * 20) + 1;
+        somma = A + B;
+        differenza = Math.abs(A - B);
+        k = Math.floor(Math.random() * 4) + 1;
+
+        const caseType = Math.floor(Math.random() * 3) + 1;
+        let problemText = '';
+
+        switch (caseType) {
+            case 1:
+                // Caso 1: Somma e differenza
+                problemText = `La somma delle barre è: ${somma}. La differenza delle barre è: ${differenza}.`;
+                break;
+            case 2:
+                // Caso 2: Somma e A multiplo di B
+                problemText = `La somma delle barre è: ${somma}. `;
+                if (Math.random() < 0.5) {
+                    problemText += `La barra A è ${k} volte la barra B.`;
+                } else {
+                    problemText += `La barra B è ${k} volte la barra A.`;
+                }
+                break;
+            case 3:
+                // Caso 3: Differenza e A multiplo di B
+                problemText = `La differenza delle barre è: ${differenza}. `;
+                if (Math.random() < 0.5) {
+                    problemText += `La barra A è ${k} volte la barra B.`;
+                } else {
+                    problemText += `La barra B è ${k} volte la barra A.`;
+                }
+                break;
+        }
+
+        problemElement.innerHTML = problemText;
+        resultElement.innerHTML = '';  // Reset result text
+    }
+
+    function checkAnswer() {
+        const guessA = parseInt(document.getElementById('guessA').value);
+        const guessB = parseInt(document.getElementById('guessB').value);
+
+        if (guessA === A && guessB === B) {
+            resultElement.innerHTML = "Corretto! Hai trovato le lunghezze esatte.";
+        } else {
+            resultElement.innerHTML = `Sbagliato! Le lunghezze corrette erano A = ${A} e B = ${B}.`;
+        }
+    }
+
+    // Genera un nuovo gioco all'inizio
+    generateGame();
+</script>
+
+</body>
+</html>
